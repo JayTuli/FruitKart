@@ -1,0 +1,6 @@
+@ImageService_HostAddress = http://localhost:5251
+
+GET {{ImageService_HostAddress}}/images/apiresponse/
+Accept: application/json
+
+###

@@ -1,0 +1,290 @@
+// import { ROLES, ROUTES } from "../../utility/constants";
+// import { useDispatch, useSelector } from "react-redux";
+// import { NavLink, Link, useNavigate } from "react-router-dom";
+// import { logout } from "../../store/slice/authSlice";
+// import { toggleTheme } from "../../store/slice/themeSlice";
+// function Header() {
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   const { isAuthenticated, user } = useSelector((state) => state.auth);
+//   const { totalItems } = useSelector((state) => state.cart);
+
+//   const handleLogout = () => {
+//     dispatch(logout());
+//     navigate(ROUTES.HOME);
+//   };
+
+//   return (
+//     <nav className="navbar navbar-expand-lg  border-bottom shadow-sm">
+//       <div className="container py-2">
+//         <NavLink
+//           to={ROUTES.HOME}
+//           className="navbar-brand d-flex align-items-center gap-2"
+//         >
+//           <i className="bi bi-basket text-primary fs-4"></i>
+//           <span className="fw-bold">FruitCart</span>
+//         </NavLink>
+//         <button
+//           className="navbar-toggler"
+//           type="button"
+//           data-bs-toggle="collapse"
+//           data-bs-target="#mainNav"
+//           aria-controls="mainNav"
+//           aria-expanded="false"
+//           aria-label="Toggle navigation"
+//         >
+//           <span className="navbar-toggler-icon"></span>
+//         </button>
+//         <div className="collapse navbar-collapse" id="mainNav">
+        
+//           <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+//             <li className="nav-item me-lg-2">
+//               <NavLink
+//                 to={ROUTES.CART}
+//                 className={`nav-link position-relative d-flex align-items-center justify-content-center bg-primary-subtle border-0 rounded-circle `}
+//                 style={{ width: "44px", height: "44px" }}
+//               >
+//                 <i className="bi bi-cart3 fs-5"></i>
+
+//                 <span
+//                   className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white shadow-sm"
+//                   style={{ fontSize: "0.7rem" }}
+//                 >
+//                   {totalItems > 0 ? totalItems : 0}
+//                 </span>
+//               </NavLink>
+//             </li>
+
+//             {isAuthenticated ? (
+//               <>
+//                 <li className="nav-item dropdown">
+//                   <button
+//                     className="nav-link dropdown-toggle btn btn-link d-flex align-items-center gap-2"
+//                     data-bs-toggle="dropdown"
+//                     aria-expanded="false"
+//                   >
+//                     <i className="bi bi-person-circle fs-5 text-primary"></i>
+//                     <span
+//                       className="text-truncate"
+//                       style={{ maxWidth: "120px" }}
+//                     >
+//                       Hello {user?.name?.split(" ")?.[0] || "User"}
+//                     </span>
+//                   </button>
+//                   <ul
+//                     className="dropdown-menu dropdown-menu-end shadow border rounded-3 p-2 small"
+//                     style={{
+//                       minWidth: "220px",
+//                       zIndex: 1050,
+//                     }}
+//                   >
+//                     {user?.role === ROLES.CUSTOMER && (
+//                       <li>
+//                         <NavLink
+//                           to={ROUTES.ORDER_MANAGEMENT}
+//                           className="dropdown-item d-flex align-items-center gap-2 rounded-2"
+//                         >
+//                           <i className="bi bi-bag-check text-primary"></i>
+//                           <span>My Orders</span>
+//                         </NavLink>
+//                       </li>
+//                     )}
+//                     {user?.role == ROLES.ADMIN && (
+//                       <>
+//                         <li>
+//                           <NavLink
+//                             to={ROUTES.ORDER_MANAGEMENT}
+//                             className="dropdown-item d-flex align-items-center gap-2 rounded-2"
+//                           >
+//                             <i className="bi bi-speedometer2 text-primary"></i>
+//                             <span>Check Orders</span>
+//                           </NavLink>
+//                         </li>
+//                         <li>
+//                           <NavLink
+//                             to={ROUTES.MENU_MANAGEMENT}
+//                             className="dropdown-item d-flex align-items-center gap-2 rounded-2"
+//                           >
+//                             <i className="bi bi-list-ul text-primary"></i>
+//                             <span>Edit Menu</span>
+//                           </NavLink>
+//                         </li>
+//                         <li>
+//                           <hr className="dropdown-divider my-2" />
+//                         </li>
+//                       </>
+//                     )}
+
+//                     <li>
+//                       <button
+//                         onClick={handleLogout}
+//                         className="dropdown-item d-flex align-items-center gap-2 text-danger rounded-2"
+//                       >
+//                         <i className="bi bi-box-arrow-right"></i>
+//                         <span>Logout</span>
+//                       </button>
+//                     </li>
+//                   </ul>
+//                 </li>
+//               </>
+//             ) : (
+//               <>
+//                 <li className="nav-item">
+//                   <NavLink to={ROUTES.LOGIN} className="nav-link">
+//                     Login
+//                   </NavLink>
+//                 </li>
+//                 <li className="nav-item">
+//                   <NavLink to={ROUTES.REGISTER} className="nav-link">
+//                     Register
+//                   </NavLink>
+//                 </li>
+//               </>
+//             )}
+//             <li className="nav-item me-lg-2">
+//               <button
+//                 type="button"
+//                 className="nav-link btn btn-link d-flex align-items-center p-0"
+//                 onClick={() => dispatch(toggleTheme())}
+//               >
+//                 <i className="bi bi-moon-stars fs-5"></i>
+//               </button>
+//             </li>
+//           </ul>
+//         </div>
+//       </div>
+//     </nav>
+//   );
+// }
+
+// export default Header;
+import { ROLES, ROUTES } from "../../utility/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../../store/slice/authSlice";
+import { toggleTheme } from "../../store/slice/themeSlice";
+import { clearCartOnLogout } from "../../store/slice/cartSlice";
+
+function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { totalItems } = useSelector((state) => state.cart);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(clearCartOnLogout());
+    navigate(ROUTES.HOME);
+  };
+
+  return (
+    <nav className="navbar navbar-expand-lg border-bottom shadow-sm">
+      <div className="container py-2">
+        <NavLink to={ROUTES.HOME} className="navbar-brand d-flex align-items-center gap-2">
+          <i className="bi bi-basket text-primary fs-4"></i>
+          <span className="fw-bold">FruitCart</span>
+        </NavLink>
+
+        <button className="navbar-toggler" type="button"
+          data-bs-toggle="collapse" data-bs-target="#mainNav"
+          aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="mainNav">
+          <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+            {/* Cart — hidden for Admin */}
+            {user?.role !== ROLES.ADMIN && (
+              <li className="nav-item me-lg-2">
+                <NavLink to={ROUTES.CART}
+                  className="nav-link position-relative d-flex align-items-center justify-content-center bg-primary-subtle border-0 rounded-circle"
+                  style={{ width: "44px", height: "44px" }}>
+                  <i className="bi bi-cart3 fs-5"></i>
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white shadow-sm"
+                    style={{ fontSize: "0.7rem" }}>
+                    {totalItems > 0 ? totalItems : 0}
+                  </span>
+                </NavLink>
+              </li>
+            )}
+
+            {isAuthenticated ? (
+              <li className="nav-item dropdown">
+                <button
+                  className="nav-link dropdown-toggle btn btn-link d-flex align-items-center gap-2"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <i className="bi bi-person-circle fs-5 text-primary"></i>
+                  <span className="text-truncate" style={{ maxWidth: "120px" }}>
+                    Hello {user?.name?.split(" ")?.[0] || "User"}
+                  </span>
+                </button>
+
+                <ul className="dropdown-menu dropdown-menu-end shadow border rounded-3 p-2 small"
+                  style={{ minWidth: "220px", zIndex: 1050 }}>
+
+                  {user?.role === ROLES.CUSTOMER && (
+                    <li>
+                      <NavLink to={ROUTES.ORDER_MANAGEMENT}
+                        className="dropdown-item d-flex align-items-center gap-2 rounded-2">
+                        <i className="bi bi-bag-check text-primary"></i>
+                        <span>My Orders</span>
+                      </NavLink>
+                    </li>
+                  )}
+
+                  {user?.role === ROLES.ADMIN && (
+                    <>
+                      <li>
+                        <NavLink to={ROUTES.ORDER_MANAGEMENT}
+                          className="dropdown-item d-flex align-items-center gap-2 rounded-2">
+                          <i className="bi bi-speedometer2 text-primary"></i>
+                          <span>Check Orders</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to={ROUTES.MENU_MANAGEMENT}
+                          className="dropdown-item d-flex align-items-center gap-2 rounded-2">
+                          <i className="bi bi-list-ul text-primary"></i>
+                          <span>Edit Menu</span>
+                        </NavLink>
+                      </li>
+                      <li><hr className="dropdown-divider my-2" /></li>
+                    </>
+                  )}
+
+                  <li>
+                    <button onClick={handleLogout}
+                      className="dropdown-item d-flex align-items-center gap-2 text-danger rounded-2">
+                      <i className="bi bi-box-arrow-right"></i>
+                      <span>Logout</span>
+                    </button>
+                  </li>
+                </ul>
+              </li>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink to={ROUTES.LOGIN} className="nav-link">Login</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to={ROUTES.REGISTER} className="nav-link">Register</NavLink>
+                </li>
+              </>
+            )}
+
+            <li className="nav-item me-lg-2">
+              <button type="button"
+                className="nav-link btn btn-link d-flex align-items-center p-0"
+                onClick={() => dispatch(toggleTheme())}>
+                <i className="bi bi-moon-stars fs-5"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+export default Header;
