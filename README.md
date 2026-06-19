@@ -52,7 +52,7 @@ All client requests go through the **Ocelot API Gateway**, which routes to the a
 ### Backend
 | Layer | Technology |
 |---|---|
-| Framework | ASP.NET Core 8 |
+| Framework | ASP.NET Core 10 |
 | Language | C# |
 | ORM | Entity Framework Core (Npgsql) |
 | Database | PostgreSQL via Supabase |
@@ -88,7 +88,7 @@ All client requests go through the **Ocelot API Gateway**, which routes to the a
 
 ## Prerequisites
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [Node.js 18+](https://nodejs.org/)
 - [Supabase account](https://supabase.com/) (free tier works)
 - [Cloudinary account](https://cloudinary.com/) (free tier works)
