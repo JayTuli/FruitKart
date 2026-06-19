@@ -19,6 +19,11 @@ FruitKart is a microservices-based e-commerce application where customers can br
 
 The project was built to demonstrate distributed systems design patterns including API Gateway routing, inter-service communication, JWT-based auth across services, and RAG-style LLM context injection.
 
+Each service uses:
+  Controller → Repository → DbContext → Supabase
+  DTO ←→ AutoMapper ←→ Model
+  JWT for auth across all services
+
 ---
 
 ## Architecture
